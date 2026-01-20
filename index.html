@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1941년, 윤동주와 함께 걷는 길</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f7f2;
+            color: #333;
+        }
+        .serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+        .bg-old-paper {
+            background-color: #f4eee0;
+            background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+        }
+        .step-number {
+            font-family: 'serif';
+            font-style: italic;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #d1cfc7;
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header / Hero Section -->
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-800 text-white">
+        <div class="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1526748493033-0599c2776c5b?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <div class="relative z-10 text-center px-4 fade-in">
+            <h1 class="serif text-4xl md:text-6xl mb-4 leading-tight">1941년, 윤동주와 함께 걷는 길</h1>
+            <p class="text-lg md:text-xl font-light tracking-widest opacity-90">역사 및 지역 탐방 코스 가이드</p>
+            <div class="mt-8 w-16 h-1 bg-white mx-auto"></div>
+            <p class="mt-8 max-w-2xl mx-auto text-sm md:text-base leading-relaxed opacity-80">
+                시인이 머물렀던 누상동 하숙집에서 연희전문학교에 이르는 등굣길.<br>
+                그 길 위에 새겨진 고뇌와 성찰의 흔적을 따라갑니다.
+            </p>
+        </div>
+    </header>
+
+    <!-- Introduction -->
+    <section class="py-16 px-4 max-w-4xl mx-auto text-center">
+        <h2 class="serif text-3xl mb-6 text-stone-700">기획 의도</h2>
+        <p class="text-stone-600 leading-loose mb-10">
+            이 가이드는 1941년 윤동주 시인이 머물렀던 공간과 등굣길을 중심으로 구성되었습니다.<br>
+            식민지 말기의 암울한 시대상과 그 속에서 치열하게 자아를 성찰했던 청년 동주의 내면 세계를<br>
+            직접 걷고 느끼며 이해하기 위해 기획되었습니다.
+        </p>
+        
+        <!-- Added Image -->
+        <div class="relative inline-block overflow-hidden rounded-xl shadow-2xl border-4 border-white fade-in">
+            <img src="https://github.com/IRUKA21C/0120/blob/main/%EC%A0%9C%EB%AA%A9%20(1).png?raw=true" 
+                 alt="윤동주 시인 탐방 가이드 이미지" 
+                 class="max-w-full h-auto block"
+                 onerror="this.style.display='none'">
+        </div>
+    </section>
+
+    <!-- Main Course Container -->
+    <main class="py-12 px-4 md:px-8 bg-old-paper">
+        <div class="max-w-6xl mx-auto relative">
+            
+            <!-- Timeline Vertical Line -->
+            <div class="timeline-line hidden md:block"></div>
+
+            <!-- Course 1 -->
+            <div class="relative mb-24 md:flex items-center justify-between">
+                <div class="md:w-[45%] mb-8 md:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <span class="serif text-stone-400 text-5xl opacity-50 block mb-2">01</span>
+                        <h3 class="serif text-2xl font-bold mb-4 text-stone-800">누상동 하숙집</h3>
+                        <p class="text-sm text-stone-500 mb-4 italic">창작의 요람 | 종로구 누상동</p>
+                        <ul class="space-y-3 text-stone-700">
+                            <li><strong class="text-stone-900">문학적 교류:</strong> 후배 정병욱과 기거하며 문학을 논하고 클래식 음악을 향유했던 공간</li>
+                            <li><strong class="text-stone-900">창작의 절정:</strong> 대표작 중 9편이 집필된 가장 활발한 창작기</li>
+                            <li><strong class="text-stone-900">감동의 일화:</strong> 훗날 정병욱이 다시 찾은 방에서 어느 학생이 동주의 시를 배우고 있었다는 이야기</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hidden md:flex z-10 w-10 h-10 bg-stone-700 rounded-full items-center justify-center text-white ring-8 ring-stone-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001.1 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+                </div>
+                <div class="md:w-[45%] h-64 bg-stone-200 rounded-lg overflow-hidden shadow-inner flex items-center justify-center text-stone-400">
+                    [누상동 하숙집 터 이미지]
+                </div>
+            </div>
+
+            <!-- Course 2 -->
+            <div class="relative mb-24 md:flex items-center justify-between flex-row-reverse">
+                <div class="md:w-[45%] mb-8 md:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <span class="serif text-stone-400 text-5xl opacity-50 block mb-2">02</span>
+                        <h3 class="serif text-2xl font-bold mb-4 text-stone-800">수성동 계곡과 인왕산 산책로</h3>
+                        <p class="text-sm text-stone-500 mb-4 italic">성찰의 길 | 하숙집 인근</p>
+                        <ul class="space-y-3 text-stone-700">
+                            <li><strong class="text-stone-900">예술적 배경:</strong> 겸재 정선의 화첩 속에 등장하는 수성동과 인왕제색도의 배경</li>
+                            <li><strong class="text-stone-900">정서적 안식처:</strong> 병참기지화된 서울의 현실 속에서 얻었던 유일한 시적 영감의 원천</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hidden md:flex z-10 w-10 h-10 bg-stone-700 rounded-full items-center justify-center text-white ring-8 ring-stone-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="md:w-[45%] h-64 bg-stone-200 rounded-lg overflow-hidden shadow-inner flex items-center justify-center text-stone-400">
+                    [수성동 계곡 이미지]
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="relative mb-24 md:flex items-center justify-between">
+                <div class="md:w-[45%] mb-8 md:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <span class="serif text-stone-400 text-5xl opacity-50 block mb-2">03</span>
+                        <h3 class="serif text-2xl font-bold mb-4 text-stone-800">효자동 전차 종점과 광화문통</h3>
+                        <p class="text-sm text-stone-500 mb-4 italic">식민지의 풍경 | 효자동 ~ 광화문</p>
+                        <ul class="space-y-3 text-stone-700">
+                            <li><strong class="text-stone-900">수필 「종시(終始)」:</strong> '종점이 시점이 된다'는 철학적 사유의 발단지</li>
+                            <li><strong class="text-stone-900">치욕의 역사:</strong> 조선총독부 청사를 마주하며 지나야 했던 아픈 등굣길</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hidden md:flex z-10 w-10 h-10 bg-stone-700 rounded-full items-center justify-center text-white ring-8 ring-stone-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" /><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="md:w-[45%] h-64 bg-stone-200 rounded-lg overflow-hidden shadow-inner flex items-center justify-center text-stone-400">
+                    [옛 효자동 전차 이미지]
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="relative mb-24 md:flex items-center justify-between flex-row-reverse">
+                <div class="md:w-[45%] mb-8 md:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <span class="serif text-stone-400 text-5xl opacity-50 block mb-2">04</span>
+                        <h3 class="serif text-2xl font-bold mb-4 text-stone-800">경성역과 경의선 열차</h3>
+                        <p class="text-sm text-stone-500 mb-4 italic">민중의 삶 | 서울역 ~ 아현터널</p>
+                        <ul class="space-y-3 text-stone-700">
+                            <li><strong class="text-stone-900">민중과의 만남:</strong> '신경행', '북경행'을 쓰고 일하던 인부들을 목격</li>
+                            <li><strong class="text-stone-900">비극적 공감:</strong> 참혹한 현실을 견디는 민중과 자신의 처지를 동일시</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hidden md:flex z-10 w-10 h-10 bg-stone-700 rounded-full items-center justify-center text-white ring-8 ring-stone-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd" /></svg>
+                </div>
+                <div class="md:w-[45%] h-64 bg-stone-200 rounded-lg overflow-hidden shadow-inner flex items-center justify-center text-stone-400">
+                    [경성역 옛 풍경 이미지]
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="relative mb-12 md:flex items-center justify-between">
+                <div class="md:w-[45%] mb-8 md:mb-0">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-stone-200">
+                        <span class="serif text-stone-400 text-5xl opacity-50 block mb-2">05</span>
+                        <h3 class="serif text-2xl font-bold mb-4 text-stone-800">연희역과 연희전문학교</h3>
+                        <p class="text-sm text-stone-500 mb-4 italic">이상의 종착지 | 연세대 남쪽 철둑</p>
+                        <ul class="space-y-3 text-stone-700">
+                            <li><strong class="text-stone-900">등굣길의 끝:</strong> 학문에 정진하며 내면을 완성해 나가던 마지막 관문</li>
+                            <li><strong class="text-stone-900">청년 동주의 일상:</strong> 매일 아침 누상동에서 출발해 닿았던 학문과 우정의 공간</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="hidden md:flex z-10 w-10 h-10 bg-stone-700 rounded-full items-center justify-center text-white ring-8 ring-stone-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10.394 2.827a1 1 0 00-.788 0l-7 3a1 1 0 000 1.846l7 3a1 1 0 00.788 0l7-3a1 1 0 000-1.846l-7-3z" /><path d="M3 10.817V15a2 2 0 002 2h10a2 2 0 002-2v-4.183l-7 3-7-3z" /></svg>
+                </div>
+                <div class="md:w-[45%] h-64 bg-stone-200 rounded-lg overflow-hidden shadow-inner flex items-center justify-center text-stone-400">
+                    [연희전문학교 스팀슨관 이미지]
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Tips Section -->
+    <section class="py-20 px-4 bg-stone-800 text-stone-200">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="serif text-3xl mb-12 text-center flex items-center justify-center">
+                <span class="w-8 h-px bg-stone-500 mr-4"></span>
+                프로젝트 활용 팁
+                <span class="w-8 h-px bg-stone-500 ml-4"></span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-stone-700/50 p-6 rounded-lg">
+                    <h4 class="serif text-lg text-white mb-3">시 낭송</h4>
+                    <p class="text-sm leading-relaxed opacity-80">누상동 하숙집 터나 수성동 계곡에서 당시 집필된 시를 낭송하며 시인의 목소리를 빌려봅니다.</p>
+                </div>
+                <div class="bg-stone-700/50 p-6 rounded-lg">
+                    <h4 class="serif text-lg text-white mb-3">수필 읽기</h4>
+                    <p class="text-sm leading-relaxed opacity-80">등굣길 코스를 이동하며 수필 「종시」의 구절들을 함께 읽으면 시인의 시선을 더 깊이 공유할 수 있습니다.</p>
+                </div>
+                <div class="bg-stone-700/50 p-6 rounded-lg">
+                    <h4 class="serif text-lg text-white mb-3">지형 관찰</h4>
+                    <p class="text-sm leading-relaxed opacity-80">사라진 전차 노선과 옛 철길의 흔적을 지도를 통해 찾아보며 80년 전 서울의 모습을 상상해 봅니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-stone-900 text-stone-500 text-center text-sm border-t border-stone-800">
+        <p class="serif mb-4 text-stone-400">"죽는 날까지 하늘을 우러러 한 점 부끄럼이 없기를..."</p>
+        <p>© 2024 1941 Yun Dong-ju Exploration Guide Project</p>
+    </footer>
+
+</body>
+</html>
