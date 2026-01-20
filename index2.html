@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>윤동주와 함께 걷는 1941년: 역사 탐방 인터랙티브 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Vintage Literary (Warm Neutrals & Ink) -->
+    <!-- Background: Stone-50 (#fafaf9) - Paper feel -->
+    <!-- Primary Text: Stone-800 (#292524) - Ink feel -->
+    <!-- Accent 1: Amber-800 (#92400e) - Historical/Sepia -->
+    <!-- Accent 2: Slate-600 (#475569) - Stone/Urban -->
+    <!-- Accent 3: Emerald-700 (#047857) - Nature/Youth -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fafaf9; /* Stone-50 */
+            color: #292524; /* Stone-800 */
+        }
+        
+        h1, h2, h3, .serif-font {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        /* Chart Container Styling - Mandatory Requirement */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; 
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar for Content Area */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #e7e5e4;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #a8a29e;
+            border-radius: 3px;
+        }
+
+        /* Interactive Element Styles */
+        .course-node {
+            transition: all 0.3s ease;
+        }
+        .course-node:hover {
+            transform: scale(1.02);
+            background-color: #f5f5f4;
+        }
+        .course-node.active {
+            border-left-color: #92400e; /* Amber-800 */
+            background-color: #fffbeb; /* Amber-50 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .course-node.active .node-circle {
+            background-color: #92400e;
+            border-color: #92400e;
+            color: white;
+        }
+        
+        /* Fade In Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .feature-card {
+            transition: transform 0.2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .image-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+        }
+    </style>
+
+    <!-- Application Structure Plan:
+         Structure: Split-screen interactive dashboard.
+         - Left Sidebar (Desktop) / Top Bar (Mobile): Linear Timeline Navigation representing the 5 Courses.
+         - Main Content Area: dynamic content updating based on selected course.
+            - Top: Header & Location Info & Featured Image (for Course 1).
+            - Middle Left: Descriptive Narrative & Historical Context.
+            - Middle Right: "Sentiment Analysis" Chart (Course 1-4) or Custom Graphic (Course 5).
+            - Bottom: Usage Tips & Activities.
+         Why: The source report describes a physical and emotional journey. A linear navigation structure mirrors the "Course" aspect, while the dynamic content area allows users to stop at each location and "synthesize" the deep literary and historical meaning. For Course 5, an animated graphic is used to represent the journey's end.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Timeline Nav (HTML/CSS): Visualizes the sequence of the 5 courses (Order).
+         2. Sentiment Radar Chart (Chart.js): Analyzes attributes for Courses 1-4 (Relationships/Compare).
+         3. Dynamic Image/GIF: Used in Course 5 to represent the "Moving Emoticon" theme requested (Impact).
+         4. Key Features List (HTML): Summarizes core facts (Inform).
+         5. Activity Cards (HTML): Actionable tips (Organize).
+         
+         NO SVG / NO Mermaid used. Chart.js used for visualization where appropriate.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- 1. Navigation / Timeline Sidebar -->
+    <aside class="w-full md:w-80 bg-stone-100 border-b md:border-b-0 md:border-r border-stone-200 flex flex-col z-10 shadow-md flex-shrink-0">
+        <div class="p-6 bg-stone-200 border-b border-stone-300">
+            <h1 class="text-xl md:text-2xl font-bold text-stone-800 serif-font leading-tight">
+                윤동주와 함께 걷는<br><span class="text-amber-800">1941년</span>
+            </h1>
+            <p class="text-xs text-stone-600 mt-2">역사 및 지역 탐방 코스 가이드</p>
+        </div>
+        
+        <!-- Timeline List -->
+        <nav class="flex-1 overflow-y-auto custom-scroll p-4 space-y-3" id="course-nav">
+            <!-- Items injected via JS -->
+        </nav>
+
+        <div class="p-4 bg-stone-50 border-t border-stone-200 text-xs text-stone-500 text-center">
+            <p>1941년 서울, 시인의 발자취를 따라가다.</p>
+        </div>
+    </aside>
+
+    <!-- 2. Main Content Area -->
+    <main class="flex-1 overflow-y-auto custom-scroll relative bg-stone-50">
+        
+        <!-- Content Container -->
+        <div id="content-area" class="max-w-5xl mx-auto p-6 md:p-10 fade-in">
+            <!-- Dynamic Content Injected Here -->
+        </div>
+
+        <!-- Footer -->
+        <footer class="p-6 text-center text-stone-400 text-sm border-t border-stone-200 mt-10">
+            &copy; 윤동주 역사 탐방 프로젝트 가이드
+        </footer>
+    </main>
+
+    <script>
+        // --- DATA STORE ---
+        const courses = [
+            {
+                id: 1,
+                title: "누상동 하숙집",
+                subtitle: "창작의 요람",
+                location: "서울 종로구 누상동 (당시 소설가 김송의 집)",
+                image: "https://postfiles.pstatic.net/MjAyNTA3MjNfMTg1/MDAxNzUzMjMwNDg5NTQ5.z1C1PXlAZQ94e2O5X8z-Du8Iu0wP_XuPE4D6SRKpXlsg.VCiA-zp81IP3n8hfgDKjRGcNn078gE6QPKcfxf_lWkYg.JPEG/%EC%9C%A4%EB%8F%99%EC%A3%BC%EB%AC%B8%ED%95%99%EA%B4%80_%EC%9D%B8%EC%99%95%EC%82%B0%EC%9E%90%EB%9D%BD%EA%B8%B8.jpg?type=w966",
+                description: "1941년, 윤동주가 가장 활발하게 시를 쓰던 공간입니다. 후배 정병욱과 함께 기거하며 문학을 논하고, 음악을 즐기며 청년 시인의 꿈을 키웠던 곳입니다. 이곳에서 그의 대표작 중 9편이 탄생했습니다.",
+                features: [
+                    { title: "문학적 교류", desc: "후배 정병욱과의 문학 토론 및 김송 부인의 성악 감상" },
+                    { title: "창작의 절정", desc: "대표작 9편이 집필된 가장 생산적인 시기" },
+                    { title: "역사적 연결", desc: "1970년대까지 교과서에 실린 시를 읽던 학생이 살았던 곳" }
+                ],
+                tips: ["하숙집 터에서 당시 집필된 시 낭송해보기"],
+                chartData: [95, 70, 20, 40, 90],
+                themeColor: "rgba(217, 119, 6, 0.6)" // Amber
+            },
+            {
+                id: 2,
+                title: "수성동 계곡과 인왕산",
+                subtitle: "성찰의 길",
+                location: "누상동 하숙집에서 약 100m 거리",
+                description: "매일 아침 동주와 병욱이 산책하던 길입니다. 겸재 정선의 그림 배경이기도 한 이곳은, 식민지 서울의 암울한 병참기지화 현실 속에서 시인이 유일하게 마음의 위안을 얻고 시적 영감을 떠올렸던 자연의 피난처였습니다.",
+                features: [
+                    { title: "예술적 배경", desc: "겸재 정선의 <수성동>, <인왕제색도>의 실제 배경" },
+                    { title: "정서적 안식처", desc: "암울한 현실 속 유일한 위안과 영감의 공간" }
+                ],
+                tips: ["자연 속에서 시인의 고독과 위로를 느껴보기", "인왕산 산책로 걷기"],
+                chartData: [80, 95, 30, 100, 60],
+                themeColor: "rgba(5, 150, 105, 0.6)" // Emerald
+            },
+            {
+                id: 3,
+                title: "효자동 전차 종점과 광화문통",
+                subtitle: "식민지의 풍경",
+                location: "현재의 효자동 인근 전차 정류장 ~ 광화문 광장",
+                description: "매일 등교를 위해 전차를 타던 곳입니다. 하지만 전차 차창 밖으로 보이는 것은 동양 최대 석조건물인 조선총독부 청사와 일제 통치 기구들이었습니다. 이 치욕의 풍경을 마주하며 시인은 '종점이 시점이 된다'는 철학적 사유(수필 '종시')를 이끌어냈습니다.",
+                features: [
+                    { title: "수필 「종시」의 배경", desc: "'종점이 시점이 된다'는 철학적 사유의 발원지" },
+                    { title: "치욕의 역사", desc: "조선총독부 청사 등 식민 권력을 강제로 마주해야 했던 길" },
+                    { title: "사유의 전환", desc: "반복되는 일상을 철학적으로 승화" }
+                ],
+                tips: ["수필 「종시」의 구절 함께 읽기", "사라진 전차 노선 상상해보기"],
+                chartData: [60, 85, 90, 10, 30],
+                chartLabel: "감정 분석",
+                themeColor: "rgba(71, 85, 105, 0.6)" // Slate
+            },
+            {
+                id: 4,
+                title: "경성역과 경의선 열차",
+                subtitle: "민중의 삶을 마주하다",
+                location: "현재의 서울역 ~ 아현터널 구간",
+                description: "전차에서 내려 연희전문학교로 가는 기차(용산선)로 갈아타던 곳입니다. 아현터널 공사장의 인부들을 보며 시인은 식민지 민중의 참혹한 현실을 목격했고, '내 상(象)도 필연코 그 꼴'이라며 자신을 그들과 동일시하는 비극적 공감을 느꼈습니다.",
+                features: [
+                    { title: "이동과 환승", desc: "전차에서 기차로 갈아타는, 삶의 현장으로의 진입" },
+                    { title: "민중과의 만남", desc: "아현터널 공사장 인부들의 고단한 삶 목격" },
+                    { title: "비극적 공감", desc: "지식인으로서의 자괴감과 민중과의 동일시" }
+                ],
+                tips: ["옛 철길(신촌로9길) 흔적 지도에서 찾아보기"],
+                chartData: [50, 80, 95, 20, 85], 
+                themeColor: "rgba(185, 28, 28, 0.6)" // Red/Brown
+            },
+            {
+                id: 5,
+                title: "연희역과 연희전문학교",
+                subtitle: "학문과 이상의 종착지",
+                location: "현재 연세대학교 정문 남쪽 철둑 인근 (구 연희역)",
+                specialGraphic: "https://github.com/IRUKA21C/0120/blob/main/%EC%9B%80%EC%A7%81%EC%9D%B4%EB%8A%94%20%EC%9D%B4%EB%AA%A8%ED%8B%B0%EC%BD%98%20%EB%A7%8C%EB%93%A4%EA%B8%B0%20(400%20x%20400%20px).gif?raw=true",
+                description: "등굣길의 마지막 관문입니다. 매일 아침 누상동을 떠나 전차와 기차를 거쳐 닿은 이곳은, 시인이 학문에 정진하며 자신의 내면을 완성하고 이상을 꿈꾸던 공간이었습니다. (현재의 신촌역과는 다른 위치입니다.)",
+                features: [
+                    { title: "등굣길의 끝", desc: "매일 아침 긴 여정의 목적지" },
+                    { title: "청년 동주의 일상", desc: "학문 정진과 자아 완성의 공간" }
+                ],
+                tips: ["캠퍼스를 거닐며 청년 윤동주의 꿈 상상하기"],
+                themeColor: "rgba(37, 99, 235, 0.6)" // Blue
+            }
+        ];
+
+        let currentChart = null;
+        let activeCourseId = 1;
+
+        // --- DOM MANIPULATION ---
+
+        function init() {
+            renderNav();
+            loadCourse(0); 
+        }
+
+        function renderNav() {
+            const navContainer = document.getElementById('course-nav');
+            navContainer.innerHTML = '';
+
+            courses.forEach((course, index) => {
+                const isActive = (index + 1) === activeCourseId;
+                const div = document.createElement('div');
+                div.className = `course-node flex items-center p-3 rounded-lg border-l-4 cursor-pointer mb-2 ${isActive ? 'active' : 'border-stone-300 hover:bg-stone-200'}`;
+                div.onclick = () => loadCourse(index);
+                
+                div.innerHTML = `
+                    <div class="node-circle w-8 h-8 rounded-full border-2 flex items-center justify-center font-bold text-sm mr-3 flex-shrink-0 ${isActive ? '' : 'border-stone-400 text-stone-500 bg-white'}">
+                        ${course.id}
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold ${isActive ? 'text-amber-900' : 'text-stone-700'}">${course.title}</div>
+                        <div class="text-xs text-stone-500 truncate">${course.subtitle}</div>
+                    </div>
+                `;
+                navContainer.appendChild(div);
+            });
+        }
+
+        function loadCourse(index) {
+            const course = courses[index];
+            activeCourseId = course.id;
+            
+            renderNav();
+
+            const contentArea = document.getElementById('content-area');
+            contentArea.classList.remove('fade-in');
+            void contentArea.offsetWidth; 
+            contentArea.classList.add('fade-in');
+
+            // Image display logic for header image
+            const imageHtml = course.image ? `
+                <div class="mb-8 relative rounded-2xl overflow-hidden shadow-lg group">
+                    <img src="${course.image}" 
+                         alt="[인왕산 자락길 이미지]" 
+                         class="w-full h-64 md:h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                         onerror="this.style.display='none';">
+                    <div class="absolute bottom-0 left-0 right-0 p-4 image-overlay text-white">
+                        <p class="text-sm font-medium serif-font">인왕산 자락길에서 바라본 서울의 풍경</p>
+                    </div>
+                </div>
+            ` : '';
+
+            // Right side content: Chart or Graphic
+            let rightSideHtml = '';
+            if (course.specialGraphic) {
+                rightSideHtml = `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 mb-6 flex flex-col items-center">
+                        <h3 class="text-sm font-bold text-stone-500 uppercase tracking-widest mb-4 text-center">여정의 완성</h3>
+                        <div class="w-full max-w-[400px] aspect-square rounded-lg overflow-hidden border border-stone-100 shadow-inner">
+                            <img src="${course.specialGraphic}" alt="[연희전문학교 이미지]" class="w-full h-full object-contain">
+                        </div>
+                        <p class="text-xs text-center text-stone-400 mt-4">꿈을 향해 나아가는 시인의 발걸음</p>
+                    </div>
+                `;
+            } else {
+                rightSideHtml = `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 mb-6">
+                        <h3 class="text-sm font-bold text-stone-500 uppercase tracking-widest mb-4 text-center">공간 정서 분석</h3>
+                        <div class="chart-container">
+                            <canvas id="sentimentChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-stone-400 mt-2">텍스트 기반 정서 및 환경 요소 분석</p>
+                    </div>
+                `;
+            }
+
+            contentArea.innerHTML = `
+                <!-- Header Section -->
+                <div class="mb-8 border-b border-stone-300 pb-6">
+                    <span class="inline-block px-3 py-1 bg-stone-200 text-stone-600 rounded-full text-xs font-bold mb-2 tracking-wider">코스 ${course.id}</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-stone-800 serif-font mb-2">${course.title}</h2>
+                    <p class="text-lg text-amber-800 font-serif italic mb-4">${course.subtitle}</p>
+                    <div class="flex items-start text-stone-500 text-sm">
+                        <span class="mr-2 mt-0.5">📍</span>
+                        <span>${course.location}</span>
+                    </div>
+                </div>
+
+                ${imageHtml}
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+                    <!-- Left Column: Narrative & Features -->
+                    <div>
+                        <div class="prose prose-stone mb-8">
+                            <p class="text-stone-700 leading-relaxed text-lg text-justify">
+                                ${course.description}
+                            </p>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-stone-800 serif-font mb-4 border-l-4 border-stone-800 pl-3">주요 특징</h3>
+                        <div class="space-y-4">
+                            ${course.features.map(feat => `
+                                <div class="feature-card bg-white p-4 rounded-lg shadow-sm border border-stone-200">
+                                    <h4 class="font-bold text-stone-800 text-sm mb-1">${feat.title}</h4>
+                                    <p class="text-sm text-stone-600">${feat.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Visualization (Chart/Graphic) & Activities -->
+                    <div class="flex flex-col">
+                        ${rightSideHtml}
+
+                        <!-- Activity/Tips -->
+                        <div class="bg-amber-50 p-6 rounded-xl border border-amber-100 flex-1">
+                            <h3 class="text-lg font-bold text-amber-900 serif-font mb-3 flex items-center">
+                                <span class="text-xl mr-2">💡</span> 프로젝트 활용 팁
+                            </h3>
+                            <ul class="space-y-3">
+                                ${course.tips.map(tip => `
+                                    <li class="flex items-start text-amber-800 text-sm">
+                                        <span class="mr-2 text-amber-600">•</span>
+                                        ${tip}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (!course.specialGraphic) {
+                renderChart(course);
+            }
+        }
+
+        function renderChart(course) {
+            const canvas = document.getElementById('sentimentChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            currentChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['창작 (Creativity)', '성찰 (Reflection)', '억압 (Oppression)', '자연 (Nature)', '교감 (Community)'],
+                    datasets: [{
+                        label: `${course.title} 정서 지수`,
+                        data: course.chartData,
+                        fill: true,
+                        backgroundColor: course.themeColor,
+                        borderColor: course.themeColor.replace('0.6', '1'),
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: course.themeColor.replace('0.6', '1'),
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: course.themeColor.replace('0.6', '1')
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#e5e7eb'
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            },
+                            pointLabels: {
+                                font: {
+                                    family: "'Noto Sans KR', sans-serif",
+                                    size: 12
+                                },
+                                color: '#57534e'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: {
+                                display: false 
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#292524',
+                            titleFont: { family: "'Noto Serif KR', serif" },
+                            bodyFont: { family: "'Noto Sans KR', sans-serif" }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
